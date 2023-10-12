@@ -1,0 +1,14 @@
+:root {
+  background-color: aqua;
+}
+
+body {
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 400;
+}
+
+h1,
+h2 {
+  text-align: center;
+  font-weight: 400;
+}
