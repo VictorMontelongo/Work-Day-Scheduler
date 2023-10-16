@@ -1,8 +1,6 @@
 const timeDisplay = $("#time-display");
 const bodyText = $(".text");
-const submitBtn = $(".btn");
-const rowTimeBlock = $(".time-block")
-var text = ["text-9", "text - 10", "text -11", "text -12", "text -13", "text -15", "text-16", "text-17"];
+var todos = []
 // handle displaying the time
 function displayTime() {
   currentTime = setInterval(function () {
@@ -10,33 +8,78 @@ function displayTime() {
     timeDisplay.text(now.format("MMMM D, YYYY hh:mm:ss"));
   });
 }
-
-// attempting to save the text from the body in local storage
-function saveText() {
-  console.log(bodyText);
-  localStorage.setItem("text", JSON.stringify(text));
-
-
-}
-var storedData = localStorage.getItem("date-time")
-for (var i = 9; i < 17; i++) {
-  // This should determine past, current, and future time
-  const currentClass = "past"
-
-  const hourName = "9am"
-
-  const hourData = ""
-
-  const newBlock = $(` <div id="09" class="row time-block ${currentClass}">
-        <div class="col-2 col-md-1 hour text-center py-3">${hourName}</div>
-        <textarea id='text-09' class="col-8 col-md-10 description" rows="3"> ${hourData} </textarea>
-        <button class="btn saveBtn col-2 col-md-1" aria-label="save">
-          <i class="fas fa-save" aria-hidden="true"></i>
-  `)
-  // append to the calander itself
-
-}
-
-
-// save reference to important DOM elements
 displayTime();
+// attempting to save the text from the body in local storage
+
+// this should hold and create the blocks I need to hold the information
+const hourData = ""
+const currentState = dayjs().format('H');
+const hourBlock = ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"]
+const btnSave = ".saveBtn"
+for (var i = 0; i < 9; i++) {
+  // This should determine past, current, and future time with color
+  $("#row-display").append(` <div id=${i} class="row time-block ${currentState}">
+  <div class="col-2 col-md-1 hour text-center py-3">${hourBlock[i]}</div>
+  <textarea id='text-09' class="col-8 col-md-10 description" rows="3"> ${hourData} </textarea>
+  <button class="btn saveBtn col-2 col-md-1" aria-label="save">
+  <i class="fas fa-save" aria-hidden="true">save</i>`)
+}
+
+function renderTodos() {
+  todoList.innerHTML = "";
+  todoCountSpan.textContent = todos.length;
+
+
+  for (var i = 0; i < todos.length; i++) {
+    var todos = todos[i];
+
+  }
+}
+
+function plannerFromStorage() {
+  var dayData = localStorage.getItem("hourData");
+  if (dayData) {
+    dayData = JSON.parse(dayData);
+  } else {
+    dayData = [];
+  }
+  return dayData;
+}
+
+// Takes an array of dayData and saves them in localStorage.
+function saveProjectsToStorage(dayData) {
+  localStorage.setItem('dayData', JSON.stringify(dayData));
+}
+
+
+
+
+
+
+
+
+
+
+// function colorDisplay() {
+//   $(currentState).each(function () {
+//     const blockTime = parseInt(this.id);
+//     $(this).changeState("past", blockTime < currentState)
+//     $(this).changeState("present", blockTime === currentState)
+//     $(this).changeState("future", blockTime > currentState)
+//     function colorChange() {
+//       $(currentState).each(function () {
+//         const blockTime = parseInt(this.id)
+//         if (blockTime === currentState) {
+//           $(this).removeState("past future").addState("present");
+//         } else if (blockTime < currentState) {
+//           $(this).removeState("future present").addState("past");
+//         } else if (blockTime > currentState) {
+//           $(this).removeState("past present").addState("future");
+//         }
+//       })
+//     }
+//     // save reference to important DOM elements
+//     colorDisplay();
+//
+//     createBlocks();
+//     colorChange();
