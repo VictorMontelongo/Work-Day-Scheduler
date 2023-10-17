@@ -23,8 +23,27 @@ for (var i = 0; i < 9; i++) {
   <textarea id='text-09' class="col-8 col-md-10 description" rows="3"> ${hourData} </textarea>
   <button class="btn saveBtn col-2 col-md-1" aria-label="save">
   <i class="fas fa-save" aria-hidden="true">save</i>`)
-}
 
+  $(currentState).each(function () {
+    const hourData = parseInt(this.id);
+    $(this).changeState("past", hourData < currentState)
+    $(this).changeState("present", hourData === currentState)
+    $(this).changeState("future", hourData > currentState)
+  })
+
+  function colorChange() {
+    $(currentState).each(function () {
+      const hourData = parseInt(this.id)
+      if (hourData === currentState) {
+        $(this).removeState("past future").addState("present");
+      } else if (hourData < currentState) {
+        $(this).removeState("future present").addState("past");
+      } else if (hourData > currentState) {
+        $(this).removeState("past present").addState("future");
+      }
+    })
+  }
+}
 const btnSave = $(".btn.saveBtn");
 function saveProjectsToStorage(hourData) {
   localStorage.setItem('hourData', JSON.stringify(hourData));
@@ -52,21 +71,6 @@ btnSave.on("click", saveProjectsToStorage);
 
 
 // function colorDisplay() {
-//   $(currentState).each(function () {
-//     const blockTime = parseInt(this.id);
-//     $(this).changeState("past", blockTime < currentState)
-//     $(this).changeState("present", blockTime === currentState)
-//     $(this).changeState("future", blockTime > currentState)
-//     function colorChange() {
-//       $(currentState).each(function () {
-//         const blockTime = parseInt(this.id)
-//         if (blockTime === currentState) {
-//           $(this).removeState("past future").addState("present");
-//         } else if (blockTime < currentState) {
-//           $(this).removeState("future present").addState("past");
-//         } else if (blockTime > currentState) {
-//           $(this).removeState("past present").addState("future");
-//         }
 //       })
 //     }
 //     // save reference to important DOM elements
